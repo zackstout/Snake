@@ -156,14 +156,16 @@ function changeSnake() {
     if (head.r == apple.r && head.c == apple.c) {
       tail = snake[0];
       head = snake[snake.length - 1];
+      // nope this doesn't fix anything:
+      // head = {r: apple.r, c: apple.c};
       score ++;
 
       //new apple:
       getNewApple();
-
-      var color1 = color(255, random(50), random(50));
-      fill(color1);
-      rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
+      // var color2 = color(0, random(80), random(80));
+      // fill(color2);
+      //we don't even need to draw here, because we have the other function.
+      // rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 
     } else {
       tail = snake.shift();
@@ -189,7 +191,8 @@ function getNewApple() {
 
 
 function drawApple() {
-  var color1 = color(255, random(50), random(50));
+  //wow of course, i'm also setting the color in here:
+  var color1 = color(185, random(95), random(95));
   fill(color1);
   rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 }
