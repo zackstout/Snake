@@ -1,4 +1,12 @@
 
+// Next steps:
+// - make snake unable to hit itself
+// - make score look better
+// - clean up UI in general (i.e. make reset process more intuitive)
+// - add possibility for obstacles
+// - see if you can figure out variable framerate
+
+
 // Snake setup:
 var snake = [{r: 0, c: 4}, {r: 1, c: 4}, {r: 2, c: 4}, {r: 3, c: 4}];
 var tail = {r: 1, c: 1};
@@ -34,7 +42,6 @@ function draw() {
     drawApple();
     checkUserInput();
   }
-
 }
 
 $(document).ready(() => {
