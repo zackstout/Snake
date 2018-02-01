@@ -24,10 +24,11 @@ function setup() {
 function draw() {
   checkUserInput();
   // console.log('s, ', seconds, 'p ,', secondsPrev);
-  if (seconds == secondsPrev) {
+  if (frameCount % 100 == 0) {
     changeSnake();
   }
   drawApple();
+  console.log(frameCount);
   // console.log(seconds);
 }
 
