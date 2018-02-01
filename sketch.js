@@ -9,13 +9,15 @@ var cellSize = 30;
 var numCells = w / cellSize;
 
 function setup() {
-  createCanvas(w, h);
+  var x = createCanvas(w, h);
+  // x.id('hi');
+  // console.log(x);
   drawGrid();
-
+  console.log(snakeCells);
 }
 
 function draw() {
-
+  changeSnake();
 }
 
 function drawGrid() {
@@ -24,35 +26,45 @@ function drawGrid() {
   for (var i=0; i < numCells; i++) {
     for (var j=0; j < numCells; j++) {
       var cell = rect(i * cellSize, j * cellSize, cellSize, cellSize);
+      // cell.id('hi');
+      // wait, we don't even need an id storing the position. just use coordinates.
       snakeCells.push(cell);
     }
   }
-
-
 }
 
-  var allSnakeCells = [];
-  var snake = [{r: 0, c: 4}, {r: 1, c: 4}, {r: 2, c: 4}, {r: 3, c: 4}];
-  // starting "ghost tail" i.e. dummy:
-  var tail = {r: 1, c: 1};
-  var direction = 'd';
+function changeSnake() {
+  fill(253);
+  var head = snake[snake.length - 1];
+  snake.forEach((cell) => {
+    //interesting, c and r have reversed their roles!
+    rect(cell.c * cellSize, cell.r * cellSize, cellSize, cellSize);
+  });
+}
+//
+// snake.forEach(function(cell) {
+//   var name = 'col' + cell.c + 'row' + cell.r;
+//   var el = document.getElementById(name);
+//   el.className = 'snakeLive';
+// });
+//
+// // move tail to new head; if eating an apple, do not remove tail from snake:
+// if (head.r == apple.r && head.c == apple.c) {
+//   tail = snake[0];
+//   head = snake[snake.length - 1];
+//   //generate new apple:
+//   apple.r = Math.floor(Math.random()*15);
+//   apple.c = Math.floor(Math.random()*15);
+//   var appleCell = 'col' + apple.c + 'row' + apple.r;
+//   document.getElementById(appleCell).className = 'apple';
+// } else {
+//   tail = snake.shift();
+//   head = snake[snake.length - 1];
+// }
+// snake.push(newHead);
 
-  //drawing the snake grid:
-  function snakeGrid(s) {
-    var snakeGrid = angular.element(document.getElementById('snakeTable'));
-    var snakeRow = [];
 
-    for (var k=0; k < s; k++) {
-      for (var i=0; i < s; i++) {
-        snakeRow.push('<td><div id="col' + i + 'row' + k + '" class="snakeCell"></div> </td>');
-      }
-      var fullRow = '<tr>' + snakeRow + '</tr>';
-      snakeGrid.append($compile(fullRow)($scope));
-      snakeRow = [];
-    }
-  }
-
-  function changeSnake() {
+  function changeSnake2() {
 
     //toggle old tail back to blue:
     var name1 = 'col' + tail.c + 'row' + tail.r;
