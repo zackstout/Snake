@@ -9,18 +9,23 @@ var cellSize = 30;
 var numCells = w / cellSize;
 var apple = {r: 10, c: 1};
 var head = snake[snake.length - 1];
-var secondsPrev = 0;
-var seconds = 0;
-frameRate = 3;
+// var secondsPrev = 0;
+// var seconds = 0;
+// frameRate = 3;
 var newHead;
 var score = 0;
+var started = false;
 
 function setup() {
   var x = createCanvas(w, h);
   // this._frameRate = 0.3;
   // setFrameRate = 0.01;
   // it's odd that .id() works here but not on shapes.
+  // noLoop();
+  console.log('hi');
   drawGrid();
+  noLoop();
+
   // console.log(snakeCells);
 }
 
@@ -28,19 +33,43 @@ function draw() {
   //ok finally got there, you call it as a function rather than assigning it a value:
   frameRate(7);
 
-  // console.log(getFrameRate());
+  if (started) {
+    console.log('started');
+    // console.log(getFrameRate());
 
-  // console.log('s, ', seconds, 'p ,', secondsPrev);
-  //nope this doesn't work:
-  // if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
-  changeSnake();
-  // }
-  drawApple();
-  checkUserInput();
+    // console.log('s, ', seconds, 'p ,', secondsPrev);
+    //nope this doesn't work:
+    // if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
+    changeSnake();
+    // }
+    drawApple();
+    checkUserInput();
 
-  // console.log(frameCount);
-  // console.log(seconds);
+    // console.log(frameCount);
+    // console.log(seconds);
+  }
+
 }
+
+$(document).ready(() => {
+  console.log('jq');
+  $('#start').on('click', () => {
+    started = true;
+    // console.log('start');
+    loop();
+  });
+
+  $('#reset').on('click', () => {
+    snake = [{r: 0, c: 4}, {r: 1, c: 4}, {r: 2, c: 4}, {r: 3, c: 4}];
+    tail = {r: 1, c: 1};
+    apple = {r: 10, c: 1};
+    head = snake[snake.length - 1];
+    clear();
+    drawGrid();
+    // started = true;
+    loop();
+  });
+});
 
 
 function checkUserInput() {
@@ -87,6 +116,7 @@ function checkDirection() {
     case 'd':
     if (head.r == numCells) {
       alert('Whoops! You hit the wall.');
+      started = false;
       // clearInterval(snakeInt);
     }
     newHead = {
@@ -102,7 +132,8 @@ function checkDirection() {
     };
     if (head.r == -1) {
       alert('Whoops! You hit the wall.');
-      clearInterval(snakeInt);
+      started = false;
+      // clearInterval(snakeInt);
       // return;
     }
     break;
@@ -114,7 +145,8 @@ function checkDirection() {
     };
     if (head.c == -1) {
       alert('Whoops! You hit the wall.');
-      clearInterval(snakeInt);
+      started = false;
+      // clearInterval(snakeInt);
       // return;
     }
     break;
@@ -126,7 +158,8 @@ function checkDirection() {
     };
     if (head.c == numCells) {
       alert('Whoops! You hit the wall.');
-      clearInterval(snakeInt);
+      started = false;
+      // clearInterval(snakeInt);
       // return;
     }
     break;
@@ -198,4 +231,4 @@ function drawApple() {
 }
 
 
-setInterval(countSeconds, 1000);
+// setInterval(countSeconds, 1000);
