@@ -5,14 +5,19 @@ var tail = {r: 1, c: 1};
 var direction = 'd';
 var w = 600;
 var h = 600;
-var cellSize = 30;
-var numCells = w / cellSize;
+// var cellSize = 30;
+// var numCells = w / cellSize;
+
+var numCells = 20;
+var cellSize = w / numCells;
 var apple = {r: 10, c: 1};
 var head = snake[snake.length - 1];
 // var secondsPrev = 0;
 // var seconds = 0;
 // frameRate = 3;
 var newHead;
+//got me again!
+var fRate = 7;
 var score = 0;
 var started = false;
 
@@ -31,9 +36,10 @@ function setup() {
 
 function draw() {
   //ok finally got there, you call it as a function rather than assigning it a value:
-  frameRate(7);
+  setFrameRate(7);
 
   if (started) {
+
     console.log('started');
     // console.log(getFrameRate());
 
@@ -64,10 +70,26 @@ $(document).ready(() => {
     tail = {r: 1, c: 1};
     apple = {r: 10, c: 1};
     head = snake[snake.length - 1];
+    direction = 'd';
     clear();
     drawGrid();
     // started = true;
     loop();
+  });
+
+  $('#sub').on('click', () => {
+    g = $('#grid').val();
+    f = $('#frame').val();
+    // console.log(l);
+    numCells = g;
+    cellSize = w / numCells;
+    fRate = f;
+    console.log(fRate);
+    setFrameRate(fRate);
+    // console.log(g);
+    clear();
+    drawGrid();
+    // loop();
   });
 });
 
@@ -99,6 +121,7 @@ function checkUserInput() {
 
 function drawGrid() {
   fill(100);
+  console.log(numCells, cellSize);
   // var rect1 = rect(0, 0, 100, 100);
   for (var i=0; i < numCells; i++) {
     for (var j=0; j < numCells; j++) {
