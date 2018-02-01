@@ -162,9 +162,10 @@ function changeSnake() {
       head = snake[snake.length - 1];
 
       //new apple:
-      apple.r = Math.floor(random(numCells));
-      apple.c = Math.floor(random(numCells));
-      fill(11);
+      getNewApple();
+
+      var color1 = color(255, random(50), random(50));
+      fill(color1);
       rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 
     } else {
@@ -176,6 +177,14 @@ function changeSnake() {
 
     snake.push(newHead);
 
+}
+
+function getNewApple() {
+  apple.r = Math.floor(random(numCells));
+  apple.c = Math.floor(random(numCells));
+  if (snake.includes({r: apple.r, c: apple.c})) {
+    getNewApple();
+  }
 }
 
 
