@@ -33,7 +33,7 @@ function draw() {
   // console.log('s, ', seconds, 'p ,', secondsPrev);
   //nope this doesn't work:
   // if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
-    changeSnake();
+  changeSnake();
   // }
   drawApple();
   // console.log(frameCount);
@@ -83,7 +83,7 @@ function drawGrid() {
 function checkDirection() {
   switch(direction) {
     case 'd':
-    if (head.r + 1 == 16) {
+    if (head.r == numCells) {
       alert('Whoops! You hit the wall.');
       // clearInterval(snakeInt);
     }
@@ -98,7 +98,7 @@ function checkDirection() {
       r: head.r - 1,
       c: head.c
     };
-    if (head.r - 1 == -2) {
+    if (head.r == -1) {
       alert('Whoops! You hit the wall.');
       clearInterval(snakeInt);
       // return;
@@ -110,7 +110,7 @@ function checkDirection() {
       r: head.r,
       c: head.c - 1
     };
-    if (head.c - 1 == -2) {
+    if (head.c == -1) {
       alert('Whoops! You hit the wall.');
       clearInterval(snakeInt);
       // return;
@@ -122,7 +122,7 @@ function checkDirection() {
       r: head.r,
       c: head.c + 1
     };
-    if (head.c + 1 == 16) {
+    if (head.c == numCells) {
       alert('Whoops! You hit the wall.');
       clearInterval(snakeInt);
       // return;
@@ -134,8 +134,8 @@ function checkDirection() {
 
 function changeSnake() {
 
-  checkDirection();
-
+  // checkDirection();
+  // var head = snake[snake.length - 1];
 
 
     snake.forEach((cell) => {
@@ -146,8 +146,13 @@ function changeSnake() {
       rect(cell.c * cellSize, cell.r * cellSize, cellSize, cellSize);
     });
 
-    //wait we don't need a setInterval, we can just use framerate. Ok nvm that's not working.
+    //turn tail back to dark:
+    fill(100);
+    rect(tail.c * cellSize, tail.r * cellSize, cellSize, cellSize);
 
+
+    //wait we don't need a setInterval, we can just use framerate. Ok nvm that's not working. Ah it finally is.
+    checkDirection();
 
     if (head.r == apple.r && head.c == apple.c) {
       tail = snake[0];
@@ -165,12 +170,12 @@ function changeSnake() {
     }
     snake.push(newHead);
 
-
 }
 
 
 function drawApple() {
-  fill(11);
+  var color1 = color(255, random(50), random(50));
+  fill(color1);
   rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 }
 
