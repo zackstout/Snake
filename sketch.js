@@ -38,8 +38,9 @@ function draw() {
   setFrameRate(7);
 
   if (started) {
-    changeSnake();
+    //hmm, flipping the order of these two fixes the apple-over-head problem, but now the growth is lagging by a frame it seems...
     drawApple();
+    changeSnake();
     checkUserInput();
   }
 }
@@ -100,9 +101,10 @@ function checkUserInput() {
 
 // Draw the grid:
 function drawGrid() {
-  fill(100);
   for (var i=0; i < numCells; i++) {
     for (var j=0; j < numCells; j++) {
+      var color1 = color(random(50), random(90), 190);
+      fill(color1);
       var cell = rect(i * cellSize, j * cellSize, cellSize, cellSize);
       snakeCells.push(cell);
     }
@@ -168,7 +170,8 @@ function changeSnake() {
     });
 
     // Turn tail back to dark:
-    fill(100);
+    var color1 = color(random(50), random(90), 190);
+    fill(color1);
     rect(tail.c * cellSize, tail.r * cellSize, cellSize, cellSize);
 
     // If snake eats an apple:
