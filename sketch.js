@@ -24,7 +24,8 @@ function setup() {
 function draw() {
   checkUserInput();
   // console.log('s, ', seconds, 'p ,', secondsPrev);
-  if (frameCount % 100 == 0) {
+  //nope this doesn't work:
+  if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
     changeSnake();
   }
   drawApple();
