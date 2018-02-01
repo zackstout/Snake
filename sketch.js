@@ -13,7 +13,7 @@ var secondsPrev = 0;
 var seconds = 0;
 frameRate = 3;
 var newHead;
-
+var score = 0;
 
 function setup() {
   var x = createCanvas(w, h);
@@ -26,7 +26,7 @@ function setup() {
 
 function draw() {
   //ok finally got there, you call it as a function rather than assigning it a value:
-  frameRate(9);
+  frameRate(7);
 
   // console.log(getFrameRate());
 
@@ -135,12 +135,9 @@ function checkDirection() {
 
 
 function changeSnake() {
-
-  // checkDirection();
-
   // really strange that leaving this in kills the snake:
   // var head = snake[snake.length - 1];
-
+  // OOH no it's because using 'var' overwrites the reference to the global 'head' variable!
 
     snake.forEach((cell) => {
       //oooh, second time i've made this mistake; you can't name the variable the same thing as the function:
@@ -154,12 +151,12 @@ function changeSnake() {
     fill(100);
     rect(tail.c * cellSize, tail.r * cellSize, cellSize, cellSize);
 
-
     //wait we don't need a setInterval, we can just use framerate. Ok nvm that's not working. Ah it finally is.
 
     if (head.r == apple.r && head.c == apple.c) {
       tail = snake[0];
       head = snake[snake.length - 1];
+      score ++;
 
       //new apple:
       getNewApple();
@@ -173,9 +170,12 @@ function changeSnake() {
       head = snake[snake.length - 1];
     }
 
+    //ahh the key change was moving this down here:
     checkDirection();
 
     snake.push(newHead);
+
+    $('.score').html('<p>' + score + '</p>');
 
 }
 

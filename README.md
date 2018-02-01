@@ -1,9 +1,6 @@
 # Snake
 
-In the process of translating into p5.js. See my blog post (http://zstout.com/#/code) for a layout of my thought process.
-
-(note: don't forget to host on heroku for a live demo).
+Let's play snake! See my blog post (http://zstout.com/#/code) for a layout of my thought process on building out the game (the post concerns building Snake with AngularJS and vanilla HTML canvas).
 
 # Built With:
 - p5.js
-- jQuery
