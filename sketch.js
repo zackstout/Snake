@@ -11,10 +11,12 @@ var apple = {r: 10, c: 1};
 var head = snake[snake.length - 1];
 var secondsPrev = 0;
 var seconds = 0;
+frameRate = 3;
 
 
 function setup() {
   var x = createCanvas(w, h);
+  this._frameRate = 0.3;
   // setFrameRate = 0.01;
   // it's odd that .id() works here but not on shapes.
   drawGrid();
@@ -22,14 +24,19 @@ function setup() {
 }
 
 function draw() {
+  //ok finally got there, you call it as a function rather than assigning it a value:
+  frameRate(5);
+
+  console.log(getFrameRate());
+
   checkUserInput();
   // console.log('s, ', seconds, 'p ,', secondsPrev);
   //nope this doesn't work:
-  if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
+  // if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
     changeSnake();
-  }
+  // }
   drawApple();
-  console.log(frameCount);
+  // console.log(frameCount);
   // console.log(seconds);
 }
 
