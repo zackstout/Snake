@@ -9,10 +9,13 @@ var cellSize = 30;
 var numCells = w / cellSize;
 var apple = {r: 10, c: 1};
 var head = snake[snake.length - 1];
+var secondsPrev = 0;
+var seconds = 0;
 
 
 function setup() {
   var x = createCanvas(w, h);
+  // setFrameRate = 0.01;
   // it's odd that .id() works here but not on shapes.
   drawGrid();
   // console.log(snakeCells);
@@ -20,8 +23,12 @@ function setup() {
 
 function draw() {
   checkUserInput();
-  changeSnake();
+  // console.log('s, ', seconds, 'p ,', secondsPrev);
+  if (seconds == secondsPrev) {
+    changeSnake();
+  }
   drawApple();
+  // console.log(seconds);
 }
 
 
@@ -69,7 +76,7 @@ function checkDirection() {
     case 'd':
     if (head.r + 1 == 16) {
       alert('Whoops! You hit the wall.');
-      clearInterval(snakeInt);
+      // clearInterval(snakeInt);
     }
     newHead = {
       r: head.r + 1,
@@ -120,29 +127,34 @@ function changeSnake() {
 
   checkDirection();
 
-  snake.forEach((cell) => {
-    //oooh, second time i've made this mistake; you can't name the variable the same thing as the function:
-    var color1 = color(255, 200, random(150));
-    fill(color1);
-    //interesting, c and r have reversed their roles!
-    rect(cell.c * cellSize, cell.r * cellSize, cellSize, cellSize);
-  });
 
-  if (head.r == apple.r && head.c == apple.c) {
-    tail = snake[0];
-    head = snake[snake.length - 1];
 
-    //new apple:
-    apple.r = Math.floor(random(numCells));
-    apple.c = Math.floor(random(numCells));
-    fill(11);
-    rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
+    snake.forEach((cell) => {
+      //oooh, second time i've made this mistake; you can't name the variable the same thing as the function:
+      var color1 = color(255, 200, random(150));
+      fill(color1);
+      //interesting, c and r have reversed their roles!
+      rect(cell.c * cellSize, cell.r * cellSize, cellSize, cellSize);
+    });
 
-  } else {
-    tail = snake.shift();
-    head = snake[snake.length - 1];
-  }
-  snake.push(newHead);
+    //wait we don't need a setInterval, we can just use framerate. Ok nvm that's not working.
+
+
+    if (head.r == apple.r && head.c == apple.c) {
+      tail = snake[0];
+      head = snake[snake.length - 1];
+
+      //new apple:
+      apple.r = Math.floor(random(numCells));
+      apple.c = Math.floor(random(numCells));
+      fill(11);
+      rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
+
+    } else {
+      tail = snake.shift();
+      head = snake[snake.length - 1];
+    }
+    snake.push(newHead);
 
 
 }
@@ -153,125 +165,9 @@ function drawApple() {
   rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 }
 
+function countSeconds() {
+  secondsPrev = seconds;
+  seconds ++;
+}
 
-
-
-
-
-
-  function changeSnake2() {
-
-    //toggle old tail back to blue:
-    var name1 = 'col' + tail.c + 'row' + tail.r;
-    document.getElementById(name1).className = 'snakeCell';
-
-    //had to change this to account for variable length:
-    var head = snake[snake.length - 1];
-
-    //get current direction:
-    switch(direction) {
-      case 'd':
-      if (head.r + 1 == 16) {
-        alert('Whoops! You hit the wall.');
-        clearInterval(snakeInt);
-      }
-      newHead = {
-        r: head.r + 1,
-        c: head.c
-      };
-      break;
-
-      case 'u':
-      newHead = {
-        r: head.r - 1,
-        c: head.c
-      };
-      if (head.r - 1 == -2) {
-        alert('Whoops! You hit the wall.');
-        clearInterval(snakeInt);
-        // return;
-      }
-      break;
-
-      case 'l':
-      newHead = {
-        r: head.r,
-        c: head.c - 1
-      };
-      if (head.c - 1 == -2) {
-        alert('Whoops! You hit the wall.');
-        clearInterval(snakeInt);
-        // return;
-      }
-      break;
-
-      case 'r':
-      newHead = {
-        r: head.r,
-        c: head.c + 1
-      };
-      if (head.c + 1 == 16) {
-        alert('Whoops! You hit the wall.');
-        clearInterval(snakeInt);
-        // return;
-      }
-      break;
-    } //end switch statement
-
-    //draw snake:
-    snake.forEach(function(cell) {
-      var name = 'col' + cell.c + 'row' + cell.r;
-      var el = document.getElementById(name);
-      el.className = 'snakeLive';
-    });
-
-    // move tail to new head; if eating an apple, do not remove tail from snake:
-    if (head.r == apple.r && head.c == apple.c) {
-      tail = snake[0];
-      head = snake[snake.length - 1];
-      //generate new apple:
-      apple.r = Math.floor(Math.random()*15);
-      apple.c = Math.floor(Math.random()*15);
-      var appleCell = 'col' + apple.c + 'row' + apple.r;
-      document.getElementById(appleCell).className = 'apple';
-    } else {
-      tail = snake.shift();
-      head = snake[snake.length - 1];
-    }
-    snake.push(newHead);
-  }
-
-  window.onkeydown = function(e) {
-    // console.log(e.keyCode);
-    switch(e.keyCode) {
-      case 83:
-      direction = 'd';
-      break;
-
-      case 68:
-      direction = 'r';
-      break;
-
-      case 87:
-      direction = 'u';
-      break;
-
-      case 65:
-      direction = 'l';
-      break;
-    }
-    // console.log(direction);
-  };
-  //
-  // snakeGrid(15);
-  //
-  // var apple = {r: 10, c: 1};
-  // var appleCell = 'col' + apple.c + 'row' + apple.r;
-  // document.getElementById(appleCell).className = 'apple';
-  //
-  // changeSnake();
-  //
-  // var snakeInt;
-  // vm.startSnake = function() {
-  //   snakeInt = setInterval(changeSnake, 230);
-  // };
+setInterval(countSeconds, 1000);
