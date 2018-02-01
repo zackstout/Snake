@@ -7,18 +7,48 @@ var w = 600;
 var h = 600;
 var cellSize = 30;
 var numCells = w / cellSize;
+var apple = {r: 10, c: 1};
+var head = snake[snake.length - 1];
+
 
 function setup() {
   var x = createCanvas(w, h);
-  // x.id('hi');
-  // console.log(x);
+  // it's odd that .id() works here but not on shapes.
   drawGrid();
-  console.log(snakeCells);
+  // console.log(snakeCells);
 }
 
 function draw() {
+  checkUserInput();
   changeSnake();
+  drawApple();
 }
+
+
+function checkUserInput() {
+  window.onkeydown = function(e) {
+    // console.log(e.keyCode);
+    switch(e.keyCode) {
+      case 83:
+      direction = 'd';
+      break;
+
+      case 68:
+      direction = 'r';
+      break;
+
+      case 87:
+      direction = 'u';
+      break;
+
+      case 65:
+      direction = 'l';
+      break;
+    }
+    console.log(direction);
+  };
+}
+
 
 function drawGrid() {
   fill(100);
@@ -33,35 +63,100 @@ function drawGrid() {
   }
 }
 
+
+function checkDirection() {
+  switch(direction) {
+    case 'd':
+    if (head.r + 1 == 16) {
+      alert('Whoops! You hit the wall.');
+      clearInterval(snakeInt);
+    }
+    newHead = {
+      r: head.r + 1,
+      c: head.c
+    };
+    break;
+
+    case 'u':
+    newHead = {
+      r: head.r - 1,
+      c: head.c
+    };
+    if (head.r - 1 == -2) {
+      alert('Whoops! You hit the wall.');
+      clearInterval(snakeInt);
+      // return;
+    }
+    break;
+
+    case 'l':
+    newHead = {
+      r: head.r,
+      c: head.c - 1
+    };
+    if (head.c - 1 == -2) {
+      alert('Whoops! You hit the wall.');
+      clearInterval(snakeInt);
+      // return;
+    }
+    break;
+
+    case 'r':
+    newHead = {
+      r: head.r,
+      c: head.c + 1
+    };
+    if (head.c + 1 == 16) {
+      alert('Whoops! You hit the wall.');
+      clearInterval(snakeInt);
+      // return;
+    }
+    break;
+  } //end switch statement
+}
+
+
 function changeSnake() {
-  fill(253);
-  var head = snake[snake.length - 1];
+
+  checkDirection();
+
   snake.forEach((cell) => {
+    //oooh, second time i've made this mistake; you can't name the variable the same thing as the function:
+    var color1 = color(255, 200, random(150));
+    fill(color1);
     //interesting, c and r have reversed their roles!
     rect(cell.c * cellSize, cell.r * cellSize, cellSize, cellSize);
   });
+
+  if (head.r == apple.r && head.c == apple.c) {
+    tail = snake[0];
+    head = snake[snake.length - 1];
+
+    //new apple:
+    apple.r = Math.floor(random(numCells));
+    apple.c = Math.floor(random(numCells));
+    fill(11);
+    rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
+
+  } else {
+    tail = snake.shift();
+    head = snake[snake.length - 1];
+  }
+  snake.push(newHead);
+
+
 }
-//
-// snake.forEach(function(cell) {
-//   var name = 'col' + cell.c + 'row' + cell.r;
-//   var el = document.getElementById(name);
-//   el.className = 'snakeLive';
-// });
-//
-// // move tail to new head; if eating an apple, do not remove tail from snake:
-// if (head.r == apple.r && head.c == apple.c) {
-//   tail = snake[0];
-//   head = snake[snake.length - 1];
-//   //generate new apple:
-//   apple.r = Math.floor(Math.random()*15);
-//   apple.c = Math.floor(Math.random()*15);
-//   var appleCell = 'col' + apple.c + 'row' + apple.r;
-//   document.getElementById(appleCell).className = 'apple';
-// } else {
-//   tail = snake.shift();
-//   head = snake[snake.length - 1];
-// }
-// snake.push(newHead);
+
+
+function drawApple() {
+  fill(11);
+  rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
+}
+
+
+
+
+
 
 
   function changeSnake2() {
