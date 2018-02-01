@@ -12,11 +12,12 @@ var head = snake[snake.length - 1];
 var secondsPrev = 0;
 var seconds = 0;
 frameRate = 3;
+var newHead;
 
 
 function setup() {
   var x = createCanvas(w, h);
-  this._frameRate = 0.3;
+  // this._frameRate = 0.3;
   // setFrameRate = 0.01;
   // it's odd that .id() works here but not on shapes.
   drawGrid();
@@ -25,17 +26,18 @@ function setup() {
 
 function draw() {
   //ok finally got there, you call it as a function rather than assigning it a value:
-  frameRate(5);
+  frameRate(9);
 
-  console.log(getFrameRate());
+  // console.log(getFrameRate());
 
-  checkUserInput();
   // console.log('s, ', seconds, 'p ,', secondsPrev);
   //nope this doesn't work:
   // if (frameCount % 100 == 0 || frameCount % 100 == 1 || frameCount % 100 == 2) {
   changeSnake();
   // }
   drawApple();
+  checkUserInput();
+
   // console.log(frameCount);
   // console.log(seconds);
 }
@@ -135,6 +137,8 @@ function checkDirection() {
 function changeSnake() {
 
   // checkDirection();
+
+  // really strange that leaving this in kills the snake:
   // var head = snake[snake.length - 1];
 
 
@@ -152,7 +156,6 @@ function changeSnake() {
 
 
     //wait we don't need a setInterval, we can just use framerate. Ok nvm that's not working. Ah it finally is.
-    checkDirection();
 
     if (head.r == apple.r && head.c == apple.c) {
       tail = snake[0];
@@ -168,6 +171,9 @@ function changeSnake() {
       tail = snake.shift();
       head = snake[snake.length - 1];
     }
+
+    checkDirection();
+
     snake.push(newHead);
 
 }
@@ -179,9 +185,5 @@ function drawApple() {
   rect(apple.c * cellSize, apple.r * cellSize, cellSize, cellSize);
 }
 
-function countSeconds() {
-  secondsPrev = seconds;
-  seconds ++;
-}
 
 setInterval(countSeconds, 1000);
