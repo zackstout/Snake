@@ -1,1 +1,3 @@
-Soon will transfer to p5.js and fix the remaining few bugs (i.e. make snake die when it runs into itself).
+# Snake
+
+In the process of translating into p5.js. See my blog post (http://zstout.com/#/code) for a layout of my thought process.
