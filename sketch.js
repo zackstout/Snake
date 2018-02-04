@@ -5,6 +5,7 @@
 // - clean up UI in general (i.e. make reset process more intuitive)
 // - add possibility for obstacles
 // - see if you can figure out variable framerate
+// - use sweet alerts instead of this annoying must-click vanilla alert
 
 
 // Snake setup:
@@ -58,6 +59,7 @@ $(document).ready(() => {
     apple = {r: 10, c: 1};
     head = snake[snake.length - 1];
     direction = 'd';
+    score = 0;
     clear();
     drawGrid();
     loop();
@@ -113,6 +115,7 @@ function drawGrid() {
 
 // In each direction, we check for collisions with wall (or with snake's own body).
 function checkDirection() {
+
   switch(direction) {
     case 'd':
     if (head.r == numCells) {
@@ -157,7 +160,13 @@ function checkDirection() {
       started = false;
     }
     break;
-  } //end switch statement
+  } // End switch statement
+
+  if (snake.includes({r: newHead.r, c: newHead.c})) {
+    alert('The snake consumes itself!');
+    started = false;
+  }
+
 }
 
 

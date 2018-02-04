@@ -4,3 +4,6 @@ Let's play snake! See my blog post (http://zstout.com/#/code) for a layout of my
 
 # Built With:
 - p5.js
+
+# Getting Started:
+Clone or download this repo, then open the index.html and (right-clicking) open it in the browser.
