@@ -36,7 +36,7 @@ function setup() {
 }
 
 function draw() {
-  setFrameRate(7);
+  setFrameRate(3);
 
   if (started) {
     //hmm, flipping the order of these two fixes the apple-over-head problem, but now the growth is lagging by a frame it seems...
